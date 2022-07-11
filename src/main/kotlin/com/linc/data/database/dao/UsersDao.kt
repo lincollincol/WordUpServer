@@ -5,8 +5,10 @@ import com.linc.data.database.model.UserDatabaseModel
 import com.linc.data.database.table.UsersTable
 import com.linc.data.mapper.toDbModel
 import com.linc.data.network.UserApiModel
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertIgnore
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import java.util.*
 
 class UsersDao {
@@ -27,6 +29,10 @@ class UsersDao {
             .limit(1)
             .firstOrNull()
             ?.toDbModel()
+    }
+
+    suspend fun selectUsers() = SqlExecutor.executeQuery {
+        UsersTable.selectAll().mapNotNull(ResultRow::toDbModel)
     }
 
     /*suspend fun createEmptyUser(

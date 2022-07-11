@@ -2,6 +2,7 @@ package com.linc.data.repository
 
 import com.linc.data.database.dao.CredentialsDao
 import com.linc.data.database.dao.UsersDao
+import com.linc.data.database.model.UserDatabaseModel
 import com.linc.data.mapper.toApiModel
 import com.linc.data.network.UserApiModel
 import com.linc.extensions.getOrThrow
@@ -24,6 +25,11 @@ class UsersRepository(
             ?: error("Credentials not created!")
         usersDao.insertUser(model, credentialsId)
             .getOrThrow("Cannot create user!")
+    }
+
+    suspend fun getUsers(): List<UserApiModel.Response> = withContext(ioDispatcher) {
+        return@withContext usersDao.selectUsers().getOrThrow("Cannot load users!")
+            .map(UserDatabaseModel::toApiModel)
     }
 
     suspend fun getUser(id: String) = withContext(ioDispatcher) {

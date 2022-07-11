@@ -8,5 +8,5 @@ import java.util.*
 
 object WordsTable : Table("words") {
     val id: Column<UUID> = uuid("id").primaryKey()
-    val text: Column<String> = text("text")
+    val text: Column<String> = text("text").uniqueIndex()
 }

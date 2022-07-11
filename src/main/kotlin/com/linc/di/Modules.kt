@@ -1,5 +1,6 @@
 package com.linc.di
 
 val appModules = listOf(
-    dataModule
+    utilsModule,
+    *dataModules.toTypedArray()
 )

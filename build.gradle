@@ -36,7 +36,7 @@ dependencies {
 
     // Database
     implementation 'org.jetbrains.exposed:exposed:0.17.14'
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'com.zaxxer:HikariCP:4.0.3'
     implementation 'org.postgresql:postgresql:42.3.6'
 
     // Di
@@ -44,5 +44,9 @@ dependencies {
     implementation "io.insert-koin:koin-ktor:$koin_version"
     implementation "io.insert-koin:koin-logger-slf4j:$koin_version"
 
+    // Utils
+    def poi_version = "3.9"
+    implementation "org.apache.poi:poi:$poi_version"
+    implementation "org.apache.poi:poi-ooxml:$poi_version"
 
 }
