@@ -1,7 +1,10 @@
 package com.linc.data.repository
 
 import com.linc.data.database.dao.*
-import com.linc.extensions.getOrThrow
+import com.linc.data.database.model.collection.CollectionDbModel
+import com.linc.data.mapper.toCollectionApiModel
+import com.linc.data.network.collection.CollectionApiModel
+import com.linc.extensions.toUUID
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -40,6 +43,30 @@ class CollectionsRepository(
                 }.awaitAll().filterNotNull()
             }
         }
+    }
+
+    suspend fun getAllCollections(): List<CollectionApiModel> = withContext(ioDispatcher) {
+        return@withContext collectionsDao
+            .selectAll()
+            .getOrNull()
+            ?.map(CollectionDbModel::toCollectionApiModel)
+            .orEmpty()
+    }
+
+    suspend fun getCollection(id: String): List<CollectionApiModel> = withContext(ioDispatcher) {
+        return@withContext collectionsDao
+            .selectById(id.toUUID())
+            .getOrNull()
+            ?.map(CollectionDbModel::toCollectionApiModel)
+            .orEmpty()
+    }
+
+    suspend fun getUserCollections(id: String): List<CollectionApiModel> = withContext(ioDispatcher) {
+        return@withContext collectionsDao
+            .selectByUserId(id.toUUID())
+            .getOrNull()
+            ?.map(CollectionDbModel::toCollectionApiModel)
+            .orEmpty()
     }
 
 }

@@ -11,18 +11,19 @@ fun Route.users(
     usersRepository: UsersRepository
 ) {
 
-    post<UserApiModel.Request>("/users") {
+    get("/users") {
         try {
-            usersRepository.createUser(it)
-            call.respondSuccess(Unit)
-        } catch (e: Exception) {
+            call.respondSuccess(usersRepository.getUsers())
+        } catch(e: Exception) {
             call.respondFailure(e.localizedMessage)
         }
     }
 
-    get("/users") {
+    get("/users/{id}") {
         try {
-            call.respondSuccess(usersRepository.getUsers())
+            val id = call.parameters["id"].toString()
+            val user = usersRepository.getUser(id)
+            call.respondSuccess(user)
         } catch(e: Exception) {
             call.respondFailure(e.localizedMessage)
         }

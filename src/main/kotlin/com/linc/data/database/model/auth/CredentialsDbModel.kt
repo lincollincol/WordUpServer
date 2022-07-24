@@ -1,8 +1,8 @@
-package com.linc.data.database.model
+package com.linc.data.database.model.auth
 
 import java.util.*
 
-data class CredentialsDatabaseModel(
+data class CredentialsDbModel(
     val id: UUID,
     val password: String,
     val login: String

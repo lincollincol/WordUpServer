@@ -2,15 +2,15 @@ package com.linc.di
 
 import com.linc.data.database.DatabaseManager
 import com.linc.data.database.dao.*
-import com.linc.data.repository.CollectionsRepository
-import com.linc.data.repository.DocumentRepository
-import com.linc.data.repository.UsersRepository
+import com.linc.data.repository.*
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<UsersRepository> { UsersRepository(get(), get()) }
+    single<UsersRepository> { UsersRepository(get()) }
     single<DocumentRepository> { DocumentRepository(get()) }
+    single<AuthRepository> { AuthRepository(get(), get()) }
     single<CollectionsRepository> { CollectionsRepository(get(), get(), get(), get(), get(), get()) }
+    single<WordsRepository> { WordsRepository(get()) }
 }
 
 val daoModule = module {
