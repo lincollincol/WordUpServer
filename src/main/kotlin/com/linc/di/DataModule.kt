@@ -10,7 +10,7 @@ val repositoryModule = module {
     single<DocumentRepository> { DocumentRepository(get()) }
     single<AuthRepository> { AuthRepository(get(), get()) }
     single<CollectionsRepository> { CollectionsRepository(get(), get(), get(), get(), get(), get()) }
-    single<WordsRepository> { WordsRepository(get()) }
+    single<WordsRepository> { WordsRepository(get(), get()) }
 }
 
 val daoModule = module {

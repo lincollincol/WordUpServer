@@ -3,6 +3,7 @@ package com.linc.routes
 import com.linc.data.repository.CollectionsRepository
 import com.linc.data.repository.DocumentRepository
 import com.linc.data.repository.WordsRepository
+import com.linc.di.repositoryModule
 import com.linc.extensions.respondFailure
 import com.linc.extensions.respondSuccess
 import com.linc.extensions.toUUID
@@ -14,10 +15,6 @@ import io.ktor.utils.io.core.*
 import java.io.File
 import kotlin.io.use
 
-/**
- * Collections resources
- * Local words resources (for user custom params)
- */
 fun Route.collections(
     documentRepository: DocumentRepository,
     collectionsRepository: CollectionsRepository,
@@ -74,10 +71,14 @@ fun Route.collections(
         }
     }
 
-    get("/collections/{collectionId}/words/{wordId}") {
+    get("/users/{userId}/collections/{collectionId}/words") {
         try {
-            val id = call.parameters["id"].toString()
-            call.respondSuccess(Unit)
+            val userId = call.parameters["userId"].toString()
+            val collectionId = call.parameters["collectionId"].toString()
+            val page = call.parameters["page"]?.toInt() ?: 0
+            val perPage = call.parameters["perPage"]?.toInt() ?: 5
+            val words = wordsRepository.getCollectionUserWords(collectionId, userId, perPage, page)
+            call.respondSuccess(words)
         } catch (e: Exception) {
             call.respondFailure(e.localizedMessage)
         }

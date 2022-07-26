@@ -50,3 +50,10 @@ dependencies {
     implementation "org.apache.poi:poi-ooxml:$poi_version"
 
 }
+
+tasks {
+    create("stage").dependsOn("installDist")
+}
+//tasks.create("stage") {
+//    dependsOn("installDist")
+//}
