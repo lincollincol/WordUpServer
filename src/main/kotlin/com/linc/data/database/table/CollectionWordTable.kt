@@ -10,6 +10,7 @@ import java.util.*
 
 object CollectionWordTable : Table("collection_word") {
     val id: Column<UUID> = uuid("id").primaryKey()
+    val index: Column<Int> = integer("index")
     val wordId: Column<UUID> = uuid("word_id").references(WordsTable.id)
     val collectionId: Column<UUID> = uuid("collection_id").references(CollectionsTable.id)
 }

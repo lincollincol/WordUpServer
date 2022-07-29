@@ -2,6 +2,7 @@ package com.linc.data.mapper
 
 import com.linc.data.database.model.word.UserWordDbModel
 import com.linc.data.database.model.word.WordDbModel
+import com.linc.data.database.table.CollectionWordTable
 import com.linc.data.database.table.TranslateTable
 import com.linc.data.database.table.UserWordTable
 import com.linc.data.database.table.WordsTable
@@ -25,6 +26,7 @@ fun ResultRow.toUserWordDbModel() = UserWordDbModel(
         .split(SqlDefines.STRING_AGG_SEPARATOR),
     bookmarked = get(UserWordTable.bookmarked),
     learned = get(UserWordTable.learned),
+    collectionIndex = get(CollectionWordTable.index)
 )
 
 fun WordDbModel.toWordApiModel() = WordApiModel(
@@ -39,4 +41,5 @@ fun UserWordDbModel.toUserWordApiModel() = UserWordApiModel(
     translate = translate,
     bookmarked = bookmarked,
     learned = learned,
+    collectionIndex = collectionIndex
 )

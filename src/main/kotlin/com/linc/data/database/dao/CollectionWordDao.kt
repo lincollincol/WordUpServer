@@ -12,6 +12,7 @@ class CollectionWordDao {
     suspend fun insertCollectionWord(
         collectionId: UUID,
         wordId: UUID,
+        index: Int,
     ) = SqlExecutor.executeQuery {
         val foundCollectionWord = CollectionWordTable.select {
             (CollectionWordTable.wordId eq wordId) and (CollectionWordTable.collectionId eq collectionId)
@@ -23,6 +24,7 @@ class CollectionWordDao {
         }
         CollectionWordTable.insertIgnore { table ->
             table[CollectionWordTable.id] = UUID.randomUUID()
+            table[CollectionWordTable.index] = index
             table[CollectionWordTable.wordId] = wordId
             table[CollectionWordTable.collectionId] = collectionId
         } get CollectionWordTable.id

@@ -53,11 +53,12 @@ class UserWordDao {
                 WordsTable.text,
                 UserWordTable.bookmarked,
                 UserWordTable.learned,
+                CollectionWordTable.index,
                 TranslateTable.text.groupConcat(SqlDefines.STRING_AGG_SEPARATOR)
             )
             .select { CollectionWordTable.collectionId eq collectionId }
             .andWhere { UserWordTable.userId eq userId }
-            .groupBy(UserWordTable.id, WordsTable.text)
+            .groupBy(UserWordTable.id, WordsTable.text, CollectionWordTable.index)
             .limit(limit, offset)
             .map(ResultRow::toUserWordDbModel)
     }

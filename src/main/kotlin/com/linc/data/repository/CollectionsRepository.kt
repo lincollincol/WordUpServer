@@ -4,6 +4,7 @@ import com.linc.data.database.dao.*
 import com.linc.data.database.model.collection.CollectionDbModel
 import com.linc.data.mapper.toCollectionApiModel
 import com.linc.data.network.collection.CollectionApiModel
+import com.linc.extensions.forEachIndexed
 import com.linc.extensions.toUUID
 import kotlinx.coroutines.*
 import java.util.*
@@ -25,13 +26,12 @@ class CollectionsRepository(
     ) = withContext(ioDispatcher) {
         val collectionId = collectionsDao.insertCollection(name, userId)
             .getOrThrow() ?: return@withContext
-        words.forEach { word ->
+        words.forEachIndexed { index, word ->
             val wordId = wordsDao.insertWord(word.key)
-                .getOrThrow() ?: return@forEach
+                .getOrThrow() ?: return@forEachIndexed
             val userWordId = userWordDao.insertUserWord(userId, wordId)
-                .getOrThrow() ?: return@forEach
-
-            launch { collectionWordDao.insertCollectionWord(collectionId, wordId) }
+                .getOrThrow() ?: return@forEachIndexed
+            launch { collectionWordDao.insertCollectionWord(collectionId, wordId, index) }
             launch {
                 val translateIds = word.value.map { translate ->
                     async { translateDao.insertTranslate(translate, wordId).getOrNull() }

@@ -7,5 +7,6 @@ data class UserWordDbModel(
     val word: String,
     val translate: List<String>,
     val bookmarked: Boolean,
-    val learned: Boolean
+    val learned: Boolean,
+    val collectionIndex: Int
 )
